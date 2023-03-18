@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Rakuten Demo"
-include ':app'
+include(":app")
