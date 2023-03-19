@@ -68,6 +68,7 @@ dependencies {
     implementation(AndroidX.appCompat)
     implementation(AndroidX.lifecycleRuntimeKtx)
     implementation(AndroidX.constraintLayout)
+    implementation(AndroidX.activityKtx)
     testImplementation(Junit.junit4)
     androidTestImplementation(Junit.junitExt)
 
