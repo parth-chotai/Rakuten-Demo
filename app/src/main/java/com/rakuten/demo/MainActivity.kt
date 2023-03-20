@@ -1,14 +1,17 @@
 package com.rakuten.demo
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.rakuten.demo.data.adapter.ImageAdapter
 import com.rakuten.demo.data.model.RecentPhotos
 import com.rakuten.demo.databinding.ActivityMainBinding
+import com.rakuten.demo.util.Constants
 import com.rakuten.demo.util.NetworkResult
 import com.rakuten.demo.viewmodel.RecentPhotosViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,6 +29,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val listView = binding.lvImages
+
+        val detailActivityResult = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data
+                val title = data?.getStringExtra(Constants.TITLE)
+                binding.tvBottom.text = title
+            }
+        }
 
         viewModel.photosMetadata.observe(this) { networkResult ->
             when (networkResult) {
@@ -45,7 +58,7 @@ class MainActivity : AppCompatActivity() {
                         val selectedPhoto = adapter?.getItem(position)
                         val intent = Intent(this, DetailActivity::class.java)
                         intent.putExtra(RecentPhotos.KEYS.PHOTO, selectedPhoto)
-                        startActivity(intent)
+                        detailActivityResult.launch(intent)
                     }
                 }
             }

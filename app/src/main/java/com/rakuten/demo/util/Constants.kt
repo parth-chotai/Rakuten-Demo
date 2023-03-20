@@ -7,4 +7,6 @@ object Constants {
     const val FORMAT = "json"
     const val NO_JSON_CALLBACK = "true"
     const val SAFE_SEARCH = "true"
+    const val TITLE = "title"
+    const val DETAIL_ACTIVITY_OPENED = "detailActivityOpened"
 }

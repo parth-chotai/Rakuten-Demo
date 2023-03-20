@@ -1,6 +1,9 @@
 package com.rakuten.demo
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
 import com.rakuten.demo.data.model.Photo
@@ -9,6 +12,7 @@ import com.rakuten.demo.databinding.ActivityDetailBinding
 import com.rakuten.demo.extensions.getFormattedText
 import com.rakuten.demo.extensions.getFormattedUrl
 import com.rakuten.demo.extensions.parcelable
+import com.rakuten.demo.util.Constants
 
 class DetailActivity : AppCompatActivity() {
 
@@ -36,5 +40,19 @@ class DetailActivity : AppCompatActivity() {
             binding.tvIsFamily.text =
                 it.isFamily?.getFormattedText(getString(R.string.is_family_format))
         }
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val title = photo?.title
+                val intent = Intent().apply {
+                    putExtra(Constants.TITLE, title)
+                    putExtra(Constants.DETAIL_ACTIVITY_OPENED, true)
+                }
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
+        }
+
+        onBackPressedDispatcher.addCallback(this, callback)
     }
 }
