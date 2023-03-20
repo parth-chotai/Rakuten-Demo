@@ -1,11 +1,13 @@
 package com.rakuten.demo.data.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
-
+@Parcelize
 data class Photo(
     @SerializedName(KEYS.ID)
-    var id: Long? = null,
+    var id: String? = null,
 
     @SerializedName(KEYS.OWNER)
     var owner: String? = null,
@@ -14,7 +16,7 @@ data class Photo(
     var secret: String? = null,
 
     @SerializedName(KEYS.SERVER)
-    var server: Long? = null,
+    var server: String? = null,
 
     @SerializedName(KEYS.FARM)
     var farm: Int? = null,
@@ -30,7 +32,7 @@ data class Photo(
 
     @SerializedName(KEYS.IS_FAMILY)
     var isFamily: Int? = null,
-) {
+) : Parcelable {
     object KEYS {
         const val ID = "id"
         const val OWNER = "owner"

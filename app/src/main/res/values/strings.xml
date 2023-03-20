@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Rakuten Demo</string>
+    <string name="title">Title</string>
+    <string name="url_format">https://live.staticflickr.com/%1$s/%2$s_%3$s.jpg</string>
+    <string name="details">Details</string>
+    <string name="id_format">Id : %1$s</string>
+    <string name="owner_format">Owner : %1$s</string>
+    <string name="secret_format">Secret : %1$s</string>
+    <string name="server_format">Server : %1$s</string>
+    <string name="farm_format">Farm : %1$d</string>
+    <string name="title_format">Title : %1$s</string>
+    <string name="is_public_format">Is Public : %1$d</string>
+    <string name="is_friend_format">Is Friend : %1$d</string>
+    <string name="is_family_format">Is Family : %1$d</string>
 </resources>
