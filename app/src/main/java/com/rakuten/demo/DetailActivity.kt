@@ -46,7 +46,6 @@ class DetailActivity : AppCompatActivity() {
                 val title = photo?.title
                 val intent = Intent().apply {
                     putExtra(Constants.TITLE, title)
-                    putExtra(Constants.DETAIL_ACTIVITY_OPENED, true)
                 }
                 setResult(Activity.RESULT_OK, intent)
                 finish()

@@ -12,4 +12,5 @@
     <string name="is_public_format">Is Public : %1$d</string>
     <string name="is_friend_format">Is Friend : %1$d</string>
     <string name="is_family_format">Is Family : %1$d</string>
+    <string name="header">Header</string>
 </resources>
