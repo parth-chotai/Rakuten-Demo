@@ -4,7 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.*
+import android.widget.AbsListView
+import android.widget.LinearLayout
+import android.widget.ListView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -62,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                         networkResult.data.recentPhotos?.let { ImageAdapter(this, it.photos) }
                     listView.adapter = adapter
                     listView.setOnItemClickListener { _, _, position, _ ->
-                        val selectedPhoto = adapter?.getItem(position)
+                        val selectedPhoto = adapter?.getItem(position - 1)
                         val intent = Intent(this, DetailActivity::class.java)
                         intent.putExtra(RecentPhotos.KEYS.PHOTO, selectedPhoto)
                         detailActivityResult.launch(intent)
@@ -99,38 +102,33 @@ class MainActivity : AppCompatActivity() {
                 if (headerViewHeight == 0) {
                     headerViewHeight = headerView.height
                 }
-                if (firstVisibleItem == 0) {
+                if (firstVisibleItem != 0) {
+                    when {
+                        firstVisibleItem > lastFirstVisibleItem -> {
+                            // scroll down
+                            if (headerViewTranslationY != -headerViewHeight.toFloat()) {
+                                headerViewTranslationY = -headerViewHeight.toFloat()
+                                headerView.animate().translationY(headerViewTranslationY)
+                                listView.animate().translationY(0f)
+                            }
+                        }
+                        firstVisibleItem < lastFirstVisibleItem -> {
+                            // scroll up
+                            if (headerViewTranslationY != 0f) {
+                                headerViewTranslationY = 0f
+                                headerView.animate().translationY(headerViewTranslationY)
+                                listView.animate().translationY(headerViewHeight.toFloat())
+                            }
+                        }
+                    }
+                } else {
                     headerViewTranslationY = 0f
                     headerView.animate().translationY(headerViewTranslationY)
                     listView.animate().translationY(headerViewHeight.toFloat())
-                } else {
-                    if (firstVisibleItem > lastFirstVisibleItem) {
-                        // scroll down
-                        if (headerViewTranslationY != -headerViewHeight.toFloat()) {
-                            headerViewTranslationY = -headerViewHeight.toFloat()
-                            headerView.animate().translationY(headerViewTranslationY)
-                            listView.animate().translationY(0f)
-                        }
-                    } else if (firstVisibleItem < lastFirstVisibleItem) {
-                        // scroll up
-                        if (headerViewTranslationY != 0f) {
-                            headerViewTranslationY = 0f
-                            headerView.animate().translationY(headerViewTranslationY)
-                            listView.animate().translationY(headerViewHeight.toFloat())
-                        }
-                    }
                 }
                 lastFirstVisibleItem = firstVisibleItem
             }
         })
-
-        // set the initial marginTop of the ListView
-        listView.post {
-            val params = listView.layoutParams as RelativeLayout.LayoutParams
-            val margin = headerViewHeight
-            params.setMargins(0, -margin, 0, 0)
-            listView.layoutParams = params
-        }
     }
 
     private fun handleVisibility(
